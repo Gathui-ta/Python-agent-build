@@ -4,7 +4,7 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import PydanticOutputParser
 from langchain.agents import create_agent
-
+from tools import tools
 
 load_dotenv()
 
@@ -36,15 +36,14 @@ prompt = ChatPromptTemplate.from_messages(
 
 agent = create_agent(
     model=llm,
-    tools=[],
+    tools=tools,
     system_prompt="You are a research assistant. Answer the user's research query.",
     response_format=ResearchResponse,
 )
 
 result = agent.invoke({
     "messages": [
-        {"role": "user", "content": "Write a research paper on AI in healthcare."}
+        {"role": "user", "content": "What is the capital city of france?"}
     ]
 })
-
 print(result["structured_response"])
